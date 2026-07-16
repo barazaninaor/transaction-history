@@ -9,7 +9,30 @@
   </div>
 
   <div class="add-trade-form">
-    <input [(ngModel)]="newTransaction.stock.ticker" placeholder="Ticker" />
+    <div class="dropdown-wrapper">
+      <input
+        [(ngModel)]="newTransaction.stock.ticker"
+        (input)="filterStocks($event)"
+        (focus)="showDropdown = true"
+        (blur)="hideDropdown()"
+        placeholder="Ticker"
+        autocomplete="off"
+      />
+      <div
+        class="dropdown-menu"
+        *ngIf="showDropdown && filteredStocks.length > 0"
+      >
+        <div
+          class="dropdown-item"
+          *ngFor="let s of filteredStocks"
+          (mousedown)="selectStock(s)"
+        >
+          <div class="ticker-code">{{ s.ticker }}</div>
+          <div class="company-name">{{ s.companyName }}</div>
+        </div>
+      </div>
+    </div>
+
     <input
       [(ngModel)]="newTransaction.shares"
       type="number"
@@ -37,6 +60,7 @@
     <button class="search-btn" (click)="searchByTicker()">Search</button>
     <button class="reset-btn" (click)="resetSearch()">Reset</button>
   </div>
+
   <div class="table-wrapper">
     <table class="styled-table">
       <thead>

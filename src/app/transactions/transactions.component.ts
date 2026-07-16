@@ -20,7 +20,13 @@ export class TransactionsComponent implements OnInit {
   isEditing: boolean = false;
   editingId: number | null = null;
 
+  // משתנים עבור ה-Dropdown המותאם אישית
+  allStocks: any[] = [];
+  filteredStocks: any[] = [];
+  showDropdown: boolean = false;
+
   private apiUrl = 'http://localhost:3003/api/transactions';
+  private stocksUrl = 'http://localhost:3003/api/stocks';
 
   newTransaction = {
     stock: { ticker: '' },
@@ -33,6 +39,37 @@ export class TransactionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchTransactions();
+    this.loadAllStocks();
+  }
+
+  // טעינת רשימת המניות
+  loadAllStocks(): void {
+    this.http.get<any[]>(this.stocksUrl).subscribe(data => {
+      this.allStocks = data;
+      this.filteredStocks = data;
+    });
+  }
+
+  // סינון תוך כדי הקלדה
+  filterStocks(event: any): void {
+    const value = event.target.value.toUpperCase();
+    this.filteredStocks = this.allStocks
+      .filter(s => s.ticker.toUpperCase().startsWith(value))
+      .slice(0, 10);
+    this.showDropdown = true;
+  }
+
+  // בחירת מניה מהרשימה
+  selectStock(s: any): void {
+    this.newTransaction.stock.ticker = s.ticker;
+    this.showDropdown = false;
+  }
+
+  // הסתרת הרשימה
+  hideDropdown(): void {
+    setTimeout(() => {
+      this.showDropdown = false;
+    }, 200);
   }
 
   fetchTransactions(): void {
@@ -45,7 +82,6 @@ export class TransactionsComponent implements OnInit {
     setTimeout(() => this.statusMessage = null, 3000);
   }
 
-  // לחיצה על כפתור Edit בטבלה
   editTrade(t: any): void {
     this.isEditing = true;
     this.editingId = t.transactionId;
@@ -57,7 +93,6 @@ export class TransactionsComponent implements OnInit {
     };
   }
 
-  // פונקציה משולבת ל-POST או PUT
   saveTrade(): void {
     const payload = {
       stock: { ticker: this.newTransaction.stock.ticker },
@@ -67,7 +102,6 @@ export class TransactionsComponent implements OnInit {
     };
 
     if (this.isEditing && this.editingId) {
-      // עדכון קיים (PUT)
       this.http.put(`${this.apiUrl}/${this.editingId}`, payload).subscribe({
         next: () => {
           this.fetchTransactions();
@@ -80,7 +114,6 @@ export class TransactionsComponent implements OnInit {
         }
       });
     } else {
-      // יצירה חדשה (POST)
       this.http.post(this.apiUrl, payload).subscribe({
         next: () => {
           this.fetchTransactions();
@@ -119,31 +152,26 @@ export class TransactionsComponent implements OnInit {
     };
   }
 
-  // הוסף משתנה חדש במחלקה
-tickerSearch: string = '';
+  tickerSearch: string = '';
 
-// פונקציית חיפוש
-searchByTicker(): void {
-  if (!this.tickerSearch.trim()) {
-    this.fetchTransactions();
-    return;
-  }
-  
-  // קריאה ל-API החדש שיצרנו: /search?ticker=...
-  this.http.get<any[]>(`${this.apiUrl}/search?ticker=${this.tickerSearch}`).subscribe({
-    next: (data) => {
-      this.transactions = data;
-    },
-    error: (err) => {
-      console.error('Error searching:', err);
-      this.showStatus('No transactions found for this ticker.', 'error');
+  searchByTicker(): void {
+    if (!this.tickerSearch.trim()) {
+      this.fetchTransactions();
+      return;
     }
-  });
-}
+    this.http.get<any[]>(`${this.apiUrl}/search?ticker=${this.tickerSearch}`).subscribe({
+      next: (data) => {
+        this.transactions = data;
+      },
+      error: (err) => {
+        console.error('Error searching:', err);
+        this.showStatus('No transactions found for this ticker.', 'error');
+      }
+    });
+  }
 
-// פונקציית איפוס
-resetSearch(): void {
-  this.tickerSearch = '';
-  this.fetchTransactions();
-}
+  resetSearch(): void {
+    this.tickerSearch = '';
+    this.fetchTransactions();
+  }
 }

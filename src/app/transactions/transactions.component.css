@@ -17,7 +17,7 @@
   border-collapse: collapse;
   background-color: #161b22;
   border: 1px solid #30363d;
-  min-width: 600px; /* מונע מהטבלה להימחץ בנייד */
+  min-width: 600px;
 }
 
 .styled-table thead tr {
@@ -44,8 +44,8 @@
 
 .styled-table tbody tr:last-child td { border-bottom: none; }
 .styled-table tbody tr:hover { background-color: #1f242c; }
-.styled-table .highlight-row { background-color: rgba(56, 139, 253, 0.08); }
 
+/* --- טופס הוספת טרייד --- */
 .add-trade-form {
   background-color: #161b22;
   width: 50%;
@@ -62,63 +62,67 @@
   color: white;
   border: 1px solid #30363d;
   padding: 8px;
+  flex: 1;
 }
 
 .add-trade-form button {
   background-color: #0125f5;
   color: white;
   border: none;
-  margin-left: 10px;
   padding: 8px 16px;
   cursor: pointer;
 }
 
-.add-trade-form button:hover { background-color: #2c55c4; }
-
-.status-box {
-  width: 50%;
-  margin: auto;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 4px;
-  text-align: center;
-  font-weight: bold;
+/* --- עיצוב ה-Dropdown המותאם אישית --- */
+.dropdown-wrapper {
+  position: relative;
+  flex: 1;
 }
 
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-top: none;
+  z-index: 1000;
+  max-height: 250px;
+  overflow-y: auto;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+}
+
+.dropdown-item {
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #c9d1d9;
+  border-bottom: 1px solid #21262d;
+}
+
+.dropdown-item:hover { background-color: #1f242c; }
+.ticker-code { font-weight: bold; font-size: 14px; }
+.company-name { font-size: 12px; color: #8b949e; }
+
+/* --- סטטוס וכפתורים --- */
+.status-box { width: 50%; margin: auto; padding: 15px; margin-bottom: 20px; border-radius: 4px; text-align: center; font-weight: bold; }
 .status-box.success { background-color: rgba(46, 160, 67, 0.2); color: #3fb950; border: 1px solid #2ea043; }
 .status-box.error { background-color: rgba(248, 81, 73, 0.2); color: #f85149; border: 1px solid #da3633; }
 
 .action-buttons { display: flex; gap: 5px; }
-
-.edit-btn { background-color: transparent; color: #58a6ff; border: 1px solid #58a6ff; padding: 4px 8px; cursor: pointer; border-radius: 4px; margin-right: 8px; }
-.edit-btn:hover { background-color: #58a6ff; color: white; }
-
+.edit-btn { background-color: transparent; color: #58a6ff; border: 1px solid #58a6ff; padding: 4px 8px; cursor: pointer; border-radius: 4px; }
 .delete-btn { background-color: transparent; color: #f85149; border: 1px solid #f85149; padding: 4px 8px; cursor: pointer; border-radius: 4px; }
-.delete-btn:hover { background-color: #f85149; color: white; }
 
 .search-bar { margin-bottom: 20px; display: flex; gap: 10px; justify-content: center; }
 .search-bar input { padding: 8px; border-radius: 4px; border: 1px solid #30363d; background: #0d1117; color: white; }
-
 .search-btn { background-color: #0125f5; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
-.search-btn:hover { background-color: #2c55c4; }
-
 .reset-btn { background-color: #30363d; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
-.reset-btn:hover { background-color: #778096; }
 
-/* --- Mobile Responsiveness Adjustments --- */
+/* --- מובייל --- */
 @media (max-width: 768px) {
   .styled-table { width: 95% !important; }
   .add-trade-form, .status-box, .search-bar { width: 95% !important; }
-  
-  .add-trade-form { flex-direction: column; gap: 15px; }
-  .add-trade-form button { margin-left: 0; width: 100%; }
-
-  .transactions-container { padding: 10px; }
-
-  .styled-table th, .styled-table td {
-    padding: 10px 8px;
-    font-size: 13px;
-  }
-
+  .add-trade-form { flex-direction: column; gap: 10px; }
+  .add-trade-form button { width: 100%; margin-left: 0; }
   .search-bar { flex-direction: column; }
 }
