@@ -13,11 +13,11 @@ import { MainHeaderComponent } from '../components/main-header/main-header.compo
 })
 export class TransactionsComponent implements OnInit {
   // --- לוגיקה לזיהוי סביבה ---
-  private isLocal = window.location.hostname === 'localhost';
-  private BASE_URL = this.isLocal 
-    ? 'http://localhost:3003' 
-    : 'https://transaction-history-backend-91c1.onrender.com';
-  
+  // private isLocal = window.location.hostname === 'localhost';
+  // private BASE_URL = this.isLocal 
+  //   ? 'http://localhost:3003' 
+  //   : 'https://transaction-history-backend-91c1.onrender.com';
+  private BASE_URL = 'https://transaction-history-backend-91c1.onrender.com';
   private apiUrl = `${this.BASE_URL}/api/transactions`;
   private stocksUrl = `${this.BASE_URL}/api/stocks`;
   // ---------------------------
