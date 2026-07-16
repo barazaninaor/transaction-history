@@ -12,21 +12,26 @@ import { MainHeaderComponent } from '../components/main-header/main-header.compo
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit {
+  // --- לוגיקה לזיהוי סביבה ---
+  private isLocal = window.location.hostname === 'localhost';
+  private BASE_URL = this.isLocal 
+    ? 'http://localhost:3003' 
+    : 'https://transaction-history-backend-91c1.onrender.com';
+  
+  private apiUrl = `${this.BASE_URL}/api/transactions`;
+  private stocksUrl = `${this.BASE_URL}/api/stocks`;
+  // ---------------------------
+
   transactions: any[] = [];
   statusMessage: string | null = null;
   statusType: 'success' | 'error' = 'success';
   
-  // משתני מצב לעריכה
   isEditing: boolean = false;
   editingId: number | null = null;
 
-  // משתנים עבור ה-Dropdown המותאם אישית
   allStocks: any[] = [];
   filteredStocks: any[] = [];
   showDropdown: boolean = false;
-
-  private apiUrl = 'http://localhost:3003/api/transactions';
-  private stocksUrl = 'http://localhost:3003/api/stocks';
 
   newTransaction = {
     stock: { ticker: '' },
@@ -42,7 +47,6 @@ export class TransactionsComponent implements OnInit {
     this.loadAllStocks();
   }
 
-  // טעינת רשימת המניות
   loadAllStocks(): void {
     this.http.get<any[]>(this.stocksUrl).subscribe(data => {
       this.allStocks = data;
@@ -50,7 +54,8 @@ export class TransactionsComponent implements OnInit {
     });
   }
 
-  // סינון תוך כדי הקלדה
+  // ... (שאר המתודות נשארות ללא שינוי, הן משתמשות ב-this.apiUrl ו-this.stocksUrl)
+  
   filterStocks(event: any): void {
     const value = event.target.value.toUpperCase();
     this.filteredStocks = this.allStocks
@@ -59,13 +64,11 @@ export class TransactionsComponent implements OnInit {
     this.showDropdown = true;
   }
 
-  // בחירת מניה מהרשימה
   selectStock(s: any): void {
     this.newTransaction.stock.ticker = s.ticker;
     this.showDropdown = false;
   }
 
-  // הסתרת הרשימה
   hideDropdown(): void {
     setTimeout(() => {
       this.showDropdown = false;
