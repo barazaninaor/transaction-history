@@ -1,17 +1,19 @@
 1. שמירת השינויים בקוד המקור (Git):
-   git add .
-   git commit -m "Your commit message here"
-   git push origin main
+git add .
+git commit -m "Your commit message here"
+git push origin main
 
 2. בניית הפרויקט (Build):
-   ng build --configuration production --base-href "/transaction-history/"
+ng build --configuration production --base-href "/transaction-history/"
 
-3. יצירת עותק לניהול שגיאות ניתוב (404 Handling):
-   copy dist\frontend\index.html dist\frontend\404.html
-
-4. העלאה ל-GitHub Pages:
-   npx angular-cli-ghpages --dir=dist/frontend/browser
+3. העלאה ל-GitHub Pages:
+npx angular-cli-ghpages --dir=dist/frontend/browser
    
 
 
+
+
+no need
+3. יצירת עותק לניהול שגיאות ניתוב (404 Handling):
+copy dist\frontend\index.html dist\frontend\404.html
    
