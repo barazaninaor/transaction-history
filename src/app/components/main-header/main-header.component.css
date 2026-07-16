@@ -1,0 +1,22 @@
+.styled-h1 {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 3.5rem; /* גודל H1 מרשים */
+  font-weight: 700;
+  color: #58a6ff; /* הכחול הבהיר והבוהק מהתמונה */
+  text-align: center;
+  margin: 20px 0;
+  letter-spacing: -0.02em; /* נותן מראה מקצועי ומהודק */
+  text-shadow: 0 0 20px rgba(88, 166, 255, 0.2); /* הילה עדינה מאחורי הטקסט */
+}
+
+.subtitle {
+  text-align: center;
+  /* צבע כחול בוהק (כמו של ה-Gross Profit) */
+  color: #58a6ff; 
+  font-size: 1.4rem;
+  margin-bottom: 40px;
+  font-weight: 400; /* עובי פונט עדין יותר ל-Glow */
+  
+  /* אפקט ההילה (Glow) */
+  text-shadow: 0 0 15px rgba(88, 166, 255, 0.7);
+}
