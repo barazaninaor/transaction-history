@@ -1,11 +1,11 @@
 import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withHashLocation } from '@angular/router'; // הוסף את withHashLocation לכאן
 import { provideHttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
-    provideHttpClient() // זה חייב להיות כאן כדי שהזרקת התלויות תעבוד
+    provideRouter(routes, withHashLocation()), // הוסף את הקריאה לפונקציה כאן
+    provideHttpClient()
   ]
 };
